@@ -359,7 +359,7 @@ const PLCSimulator = () => {
       setShowTeacherLogin(false);
       setTeacherPassword('');
     } else {
-      alert("Incorrect password! Hint: 12345678");
+      alert("Incorrect password! Hint: hehe :)");
     }
   };
 
