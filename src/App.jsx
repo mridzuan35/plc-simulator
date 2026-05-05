@@ -8,8 +8,8 @@ const TRANSLATIONS = {
   en: {
     appTitle: "Pro PLC Simulator",
     homeDesc: "Select a project to begin. Choose Teacher mode to study complete, working logic, or Student mode to wire it up from scratch.",
-    studentBtn: "🎓 Student",
-    teacherBtn: "👩‍🏫 Teacher",
+    studentBtn: "🎓 Student Mode",
+    teacherBtn: "👩‍🏫 Teacher Mode",
     inputs: "Inputs",
     outputs: "Outputs",
     memory: "Memory",
@@ -46,27 +46,6 @@ const TRANSLATIONS = {
     outputDown: "+ Output ↓",
     processSim: "2D Process Simulation",
     processDesc: "If using Student Mode, write the ladder logic required to control this plant!",
-    bottles: "Bottles",
-    conveyor: "Conveyor",
-    valve: "Valve",
-    motorUp: "Motor Up",
-    motorDn: "Motor Dn",
-    fillPump: "Fill Pump",
-    drainPump: "Drain Pump",
-    mixer: "Mixer",
-    heater: "Heater",
-    floor2: "Floor 2",
-    floor1: "Floor 1",
-    ground: "Ground",
-    call: "Call",
-    on: "ON",
-    off: "OFF",
-    photoEyeHelp: "Photo Eye (I:0/4) - Toggle on Left Panel",
-    prox: "Prox",
-    level: "Level",
-    high: "High",
-    low: "Low",
-    loadTemplate: "Load Template",
     export: "💾 Save Logic",
     import: "📂 Load Logic",
     importSuccess: "Project loaded successfully!",
@@ -113,27 +92,6 @@ const TRANSLATIONS = {
     outputDown: "+ 并联输出 ↓",
     processSim: "2D 过程模拟",
     processDesc: "如果使用学生模式，请编写控制此工厂所需的梯形图逻辑！",
-    bottles: "瓶子数量",
-    conveyor: "传送带",
-    valve: "灌装阀",
-    motorUp: "向上电机",
-    motorDn: "向下电机",
-    fillPump: "进水泵",
-    drainPump: "排水泵",
-    mixer: "搅拌机",
-    heater: "加热器",
-    floor2: "2楼",
-    floor1: "1楼",
-    ground: "底层",
-    call: "呼叫",
-    on: "开",
-    off: "关",
-    photoEyeHelp: "光电传感器 (I:0/4) - 在左侧面板切换",
-    prox: "接近",
-    level: "液位",
-    high: "高",
-    low: "低",
-    loadTemplate: "加载模板",
     export: "💾 保存逻辑",
     import: "📂 加载逻辑",
     importSuccess: "项目加载成功！",
@@ -359,7 +317,7 @@ const PLCSimulator = () => {
       setShowTeacherLogin(false);
       setTeacherPassword('');
     } else {
-      alert("Incorrect password! Hint: hehe :)");
+      alert("Incorrect password! Hint: please try again");
     }
   };
 
@@ -794,10 +752,26 @@ const PLCSimulator = () => {
         
         {/* --- TAB 0: HOME / PROJECT SELECTOR --- */}
         {activeTab === 'home' && (
-          <div className="max-w-5xl mx-auto py-16 px-8 relative">
+          <div className="max-w-5xl mx-auto py-12 px-8 relative">
+            
+            {/* BRANDING HEADER */}
+            <div className="flex flex-col items-center justify-center text-center mb-10 pb-10 border-b border-slate-200">
+              {/* Note: Place your UMPSA logo image at public/umpsa-logo.png */}
+              <div className="w-32 h-32 mb-4 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg">
+                 <img 
+                   src="/umpsa-logo.png" 
+                   alt="UMPSA Logo" 
+                   className="w-full h-full object-contain p-2" 
+                   onError={(e) => { e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23cbd5e1"><path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z" /></svg>'; }} 
+                 />
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">Universiti Malaysia Pahang Al-Sultan Abdullah</h2>
+              <h3 className="text-sm sm:text-base font-medium text-slate-500 mt-2 max-w-2xl">Faculty of Electrical and Electronic Engineering Technology (FTKEE)</h3>
+            </div>
+
             <div className="text-center mb-12">
-              <h1 className="text-5xl font-black text-slate-900 mb-4 tracking-tight">{t('appTitle')}</h1>
-              <p className="text-lg text-slate-500 max-w-2xl mx-auto">{t('homeDesc')}</p>
+              <h1 className="text-4xl sm:text-5xl font-black text-slate-900 mb-4 tracking-tight">{t('appTitle')}</h1>
+              <p className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto">{t('homeDesc')}</p>
             </div>
 
             {/* Mode Toggle */}
