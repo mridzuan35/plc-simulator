@@ -8,8 +8,8 @@ const TRANSLATIONS = {
   en: {
     appTitle: "Pro PLC Simulator",
     homeDesc: "Select a project to begin. Choose Teacher mode to study complete, working logic, or Student mode to wire it up from scratch.",
-    studentBtn: "🎓 Student Mode (Blank Logic)",
-    teacherBtn: "👩‍🏫 Teacher Mode (Answers Given)",
+    studentBtn: "🎓 Student",
+    teacherBtn: "👩‍🏫 Teacher",
     inputs: "Inputs",
     outputs: "Outputs",
     memory: "Memory",
