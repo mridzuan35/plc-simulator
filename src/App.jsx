@@ -46,6 +46,27 @@ const TRANSLATIONS = {
     outputDown: "+ Output ↓",
     processSim: "2D Process Simulation",
     processDesc: "If using Student Mode, write the ladder logic required to control this plant!",
+    bottles: "Bottles",
+    conveyor: "Conveyor",
+    valve: "Valve",
+    motorUp: "Motor Up",
+    motorDn: "Motor Dn",
+    fillPump: "Fill Pump",
+    drainPump: "Drain Pump",
+    mixer: "Mixer",
+    heater: "Heater",
+    floor2: "Floor 2",
+    floor1: "Floor 1",
+    ground: "Ground",
+    call: "Call",
+    on: "ON",
+    off: "OFF",
+    photoEyeHelp: "Photo Eye (I:0/4) - Toggle on Left Panel",
+    prox: "Prox",
+    level: "Level",
+    high: "High",
+    low: "Low",
+    loadTemplate: "Load Template",
     export: "💾 Save Logic",
     import: "📂 Load Logic",
     importSuccess: "Project loaded successfully!",
@@ -92,6 +113,27 @@ const TRANSLATIONS = {
     outputDown: "+ 并联输出 ↓",
     processSim: "2D 过程模拟",
     processDesc: "如果使用学生模式，请编写控制此工厂所需的梯形图逻辑！",
+    bottles: "瓶子数量",
+    conveyor: "传送带",
+    valve: "灌装阀",
+    motorUp: "向上电机",
+    motorDn: "向下电机",
+    fillPump: "进水泵",
+    drainPump: "排水泵",
+    mixer: "搅拌机",
+    heater: "加热器",
+    floor2: "2楼",
+    floor1: "1楼",
+    ground: "底层",
+    call: "呼叫",
+    on: "开",
+    off: "关",
+    photoEyeHelp: "光电传感器 (I:0/4) - 在左侧面板切换",
+    prox: "接近",
+    level: "液位",
+    high: "高",
+    low: "低",
+    loadTemplate: "加载模板",
     export: "💾 保存逻辑",
     import: "📂 加载逻辑",
     importSuccess: "项目加载成功！",
@@ -317,7 +359,7 @@ const PLCSimulator = () => {
       setShowTeacherLogin(false);
       setTeacherPassword('');
     } else {
-      alert("Incorrect password! Hint: please try again");
+      alert("Incorrect password! Hint: ni hao");
     }
   };
 
@@ -721,9 +763,10 @@ const PLCSimulator = () => {
 
       {/* HEADER NAV */}
       {activeTab !== 'home' && (
-        <header className="bg-white border-b border-slate-200 px-8 pt-6 pb-0 shadow-sm flex justify-between items-end shrink-0">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-4">
+        <header className="bg-white border-b border-slate-200 px-8 pt-4 pb-0 shadow-sm flex flex-col sm:flex-row justify-between items-end shrink-0 relative">
+          
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-4">
               <button onClick={() => setActiveTab('home')} className="text-slate-400 hover:text-blue-600 transition-colors">←</button>
               {lang === 'en' ? PLANT_TEMPLATES[selectedPlant]?.name_en : PLANT_TEMPLATES[selectedPlant]?.name_zh}
             </h1>
@@ -733,31 +776,48 @@ const PLCSimulator = () => {
               <button onClick={() => setActiveTab('process')} className={`px-5 py-3 font-bold text-sm rounded-t-lg transition-colors ${activeTab === 'process' ? 'bg-slate-800 text-white shadow-inner' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}`}>{t('tabProcess')}</button>
             </div>
           </div>
-          <div className="mb-3 flex items-center gap-4 pt-8">
-            <div className={`text-xs font-bold tracking-widest px-3 py-1.5 rounded border ${userMode === 'teacher' ? 'bg-purple-50 text-purple-600 border-purple-200' : 'bg-blue-50 text-blue-600 border-blue-200'}`}>
-              {userMode === 'teacher' ? t('teacherMode') : t('studentMode')}
-            </div>
-            <button onClick={resetSimulation} className="px-4 py-2.5 rounded-lg font-bold text-sm transition-all flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-700 shadow-sm border border-slate-300">
-              {t('resetSim')}
-            </button>
-            <button onClick={() => setIsRunning(!isRunning)} className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all flex items-center gap-3 shadow-sm ${isRunning ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/30' : 'bg-green-500 hover:bg-green-600 text-white shadow-green-500/30'}`}>
-              <div className={`w-2.5 h-2.5 rounded-full ${isRunning ? 'bg-red-200 animate-pulse' : 'bg-green-200'}`}></div>
-              {isRunning ? t('stopSystem') : t('runSystem')}
-            </button>
+
+          <div className="flex flex-col items-end mb-3">
+             {/* COMPACT BRANDING */}
+             <div className="hidden lg:flex items-center gap-3 mb-4 pr-24">
+                <img 
+                  src="/umpsa-logo.png" 
+                  alt="UMPSA Logo" 
+                  className="w-10 h-10 object-contain" 
+                  onError={(e) => { e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23cbd5e1"><path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z" /></svg>'; }} 
+                />
+                <div className="text-right flex flex-col justify-center">
+                   <div className="text-sm font-bold text-slate-800 leading-tight">Universiti Malaysia Pahang Al-Sultan Abdullah</div>
+                   <div className="text-[10px] font-medium text-slate-500 leading-tight">Faculty of Electrical and Electronic Engineering Technology (FTKEE)</div>
+                </div>
+             </div>
+
+             {/* Action Buttons */}
+             <div className="flex items-center gap-4">
+                <div className={`text-xs font-bold tracking-widest px-3 py-1.5 rounded border ${userMode === 'teacher' ? 'bg-purple-50 text-purple-600 border-purple-200' : 'bg-blue-50 text-blue-600 border-blue-200'}`}>
+                  {userMode === 'teacher' ? t('teacherMode') : t('studentMode')}
+                </div>
+                <button onClick={resetSimulation} className="px-4 py-2.5 rounded-lg font-bold text-sm transition-all flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-slate-700 shadow-sm border border-slate-300">
+                  {t('resetSim')}
+                </button>
+                <button onClick={() => setIsRunning(!isRunning)} className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all flex items-center gap-3 shadow-sm ${isRunning ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/30' : 'bg-green-500 hover:bg-green-600 text-white shadow-green-500/30'}`}>
+                  <div className={`w-2.5 h-2.5 rounded-full ${isRunning ? 'bg-red-200 animate-pulse' : 'bg-green-200'}`}></div>
+                  {isRunning ? t('stopSystem') : t('runSystem')}
+                </button>
+             </div>
           </div>
         </header>
       )}
 
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto flex flex-col">
         
         {/* --- TAB 0: HOME / PROJECT SELECTOR --- */}
         {activeTab === 'home' && (
-          <div className="max-w-5xl mx-auto py-12 px-8 relative">
+          <div className="max-w-5xl mx-auto py-12 px-8 relative flex-1">
             
             {/* BRANDING HEADER */}
-            <div className="flex flex-col items-center justify-center text-center mb-10 pb-10 border-b border-slate-200">
-              {/* Note: Place your UMPSA logo image at public/umpsa-logo.png */}
-              <div className="w-32 h-32 mb-4 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg">
+            <div className="flex flex-col sm:flex-row items-center justify-center text-center sm:text-left mb-10 pb-10 border-b border-slate-200 gap-6">
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg shrink-0">
                  <img 
                    src="/umpsa-logo.png" 
                    alt="UMPSA Logo" 
@@ -765,8 +825,10 @@ const PLCSimulator = () => {
                    onError={(e) => { e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23cbd5e1"><path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z" /></svg>'; }} 
                  />
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight">Universiti Malaysia Pahang Al-Sultan Abdullah</h2>
-              <h3 className="text-sm sm:text-base font-medium text-slate-500 mt-2 max-w-2xl">Faculty of Electrical and Electronic Engineering Technology (FTKEE)</h3>
+              <div className="flex flex-col">
+                <h2 className="text-xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Universiti Malaysia Pahang Al-Sultan Abdullah</h2>
+                <h3 className="text-sm sm:text-lg font-medium text-slate-500 mt-2">Faculty of Electrical and Electronic Engineering Technology (FTKEE)</h3>
+              </div>
             </div>
 
             <div className="text-center mb-12">
@@ -804,47 +866,49 @@ const PLCSimulator = () => {
 
         {/* --- TAB 1: I/O CONFIGURATION --- */}
         {activeTab === 'io_setup' && (
-          <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-8 my-8">
-            <h2 className="text-2xl font-bold mb-2">{t('ioTagDb')}</h2>
-            <p className="text-slate-500 mb-8">{t('ioDesc')}</p>
-            <form onSubmit={handleAddIO} className="flex gap-4 items-end bg-slate-50 p-4 rounded-lg border border-slate-200 mb-8 flex-wrap">
-              <div className="flex-1 min-w-[120px]"><label className="block text-xs font-semibold text-slate-600 uppercase mb-1">{t('type')}</label><select value={newIO.type} onChange={e => setNewIO({...newIO, type: e.target.value})} className="w-full p-2 border border-slate-300 rounded focus:border-blue-500 outline-none"><option value="input">{t('inputs')}</option><option value="output">{t('outputs')}</option><option value="memory">{t('memory')}</option></select></div>
-              {newIO.type === 'input' && (
-                <div className="flex-1 min-w-[140px]"><label className="block text-xs font-semibold text-slate-600 uppercase mb-1">Behavior</label><select value={newIO.mode || 'toggle'} onChange={e => setNewIO({...newIO, mode: e.target.value})} className="w-full p-2 border border-slate-300 rounded focus:border-blue-500 outline-none"><option value="toggle">Toggle Switch</option><option value="momentary">Push Button</option><option value="auto">Auto Sensor</option></select></div>
-              )}
-              <div className="flex-1 min-w-[120px]"><label className="block text-xs font-semibold text-slate-600 uppercase mb-1">{t('address')}</label><input type="text" placeholder="e.g. I:0/0 or M:0/0" required value={newIO.address} onChange={e => setNewIO({...newIO, address: e.target.value})} className="w-full p-2 border border-slate-300 rounded focus:border-blue-500 outline-none"/></div>
-              <div className="flex-1 min-w-[120px]"><label className="block text-xs font-semibold text-slate-600 uppercase mb-1">{t('tagName')}</label><input type="text" placeholder="e.g. Start_Button" required value={newIO.tag} onChange={e => setNewIO({...newIO, tag: e.target.value})} className="w-full p-2 border border-slate-300 rounded focus:border-blue-500 outline-none"/></div>
-              <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap mb-0.5">{t('addTag')}</button>
-            </form>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div>
-                <h3 className="text-lg font-bold text-slate-700 mb-3 border-b pb-2">{t('inputs')}</h3>
-                <div className="space-y-2">{inputsList.map(io => (
-                  <div key={io.id} className="flex justify-between items-center bg-white border border-slate-200 p-2 rounded shadow-sm">
-                    <div className="flex flex-col gap-1 w-full mr-2">
-                      <div className="flex items-center">
-                        <span className="font-mono text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded mr-2">{io.address}</span>
-                        <input type="text" value={io.tag} onChange={(e) => renameIO(io.id, e.target.value)} className="font-medium text-sm bg-transparent border-b border-transparent hover:border-slate-300 focus:border-blue-500 outline-none w-full truncate" />
+          <div className="flex-1 max-w-4xl mx-auto w-full">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 my-8">
+              <h2 className="text-2xl font-bold mb-2">{t('ioTagDb')}</h2>
+              <p className="text-slate-500 mb-8">{t('ioDesc')}</p>
+              <form onSubmit={handleAddIO} className="flex gap-4 items-end bg-slate-50 p-4 rounded-lg border border-slate-200 mb-8 flex-wrap">
+                <div className="flex-1 min-w-[120px]"><label className="block text-xs font-semibold text-slate-600 uppercase mb-1">{t('type')}</label><select value={newIO.type} onChange={e => setNewIO({...newIO, type: e.target.value})} className="w-full p-2 border border-slate-300 rounded focus:border-blue-500 outline-none"><option value="input">{t('inputs')}</option><option value="output">{t('outputs')}</option><option value="memory">{t('memory')}</option></select></div>
+                {newIO.type === 'input' && (
+                  <div className="flex-1 min-w-[140px]"><label className="block text-xs font-semibold text-slate-600 uppercase mb-1">Behavior</label><select value={newIO.mode || 'toggle'} onChange={e => setNewIO({...newIO, mode: e.target.value})} className="w-full p-2 border border-slate-300 rounded focus:border-blue-500 outline-none"><option value="toggle">Toggle Switch</option><option value="momentary">Push Button</option><option value="auto">Auto Sensor</option></select></div>
+                )}
+                <div className="flex-1 min-w-[120px]"><label className="block text-xs font-semibold text-slate-600 uppercase mb-1">{t('address')}</label><input type="text" placeholder="e.g. I:0/0 or M:0/0" required value={newIO.address} onChange={e => setNewIO({...newIO, address: e.target.value})} className="w-full p-2 border border-slate-300 rounded focus:border-blue-500 outline-none"/></div>
+                <div className="flex-1 min-w-[120px]"><label className="block text-xs font-semibold text-slate-600 uppercase mb-1">{t('tagName')}</label><input type="text" placeholder="e.g. Start_Button" required value={newIO.tag} onChange={e => setNewIO({...newIO, tag: e.target.value})} className="w-full p-2 border border-slate-300 rounded focus:border-blue-500 outline-none"/></div>
+                <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap mb-0.5">{t('addTag')}</button>
+              </form>
+              <div className="grid md:grid-cols-3 gap-8">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-700 mb-3 border-b pb-2">{t('inputs')}</h3>
+                  <div className="space-y-2">{inputsList.map(io => (
+                    <div key={io.id} className="flex justify-between items-center bg-white border border-slate-200 p-2 rounded shadow-sm">
+                      <div className="flex flex-col gap-1 w-full mr-2">
+                        <div className="flex items-center">
+                          <span className="font-mono text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded mr-2">{io.address}</span>
+                          <input type="text" value={io.tag} onChange={(e) => renameIO(io.id, e.target.value)} className="font-medium text-sm bg-transparent border-b border-transparent hover:border-slate-300 focus:border-blue-500 outline-none w-full truncate" />
+                        </div>
+                        <select value={io.mode || 'toggle'} onChange={(e) => updateIOMode(io.id, e.target.value)} className="text-[10px] bg-slate-50 border border-slate-200 rounded p-1 text-slate-500 outline-none w-32 cursor-pointer">
+                          <option value="toggle">Toggle Switch</option>
+                          <option value="momentary">Push Button</option>
+                          <option value="auto">Auto Sensor</option>
+                        </select>
                       </div>
-                      <select value={io.mode || 'toggle'} onChange={(e) => updateIOMode(io.id, e.target.value)} className="text-[10px] bg-slate-50 border border-slate-200 rounded p-1 text-slate-500 outline-none w-32 cursor-pointer">
-                        <option value="toggle">Toggle Switch</option>
-                        <option value="momentary">Push Button</option>
-                        <option value="auto">Auto Sensor</option>
-                      </select>
+                      <button onClick={() => removeIO(io.id, io.address)} className="text-red-400 hover:text-red-700 font-bold px-2">&times;</button>
                     </div>
-                    <button onClick={() => removeIO(io.id, io.address)} className="text-red-400 hover:text-red-700 font-bold px-2">&times;</button>
+                  ))}</div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-700 mb-3 border-b pb-2">{t('outputs')}</h3>
+                  <div className="space-y-2">{outputsList.map(io => (<div key={io.id} className="flex justify-between items-center bg-white border border-slate-200 p-2 rounded shadow-sm"><div><span className="font-mono text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded mr-2">{io.address}</span><input type="text" value={io.tag} onChange={(e) => renameIO(io.id, e.target.value)} className="font-medium text-sm bg-transparent border-b border-transparent hover:border-slate-300 focus:border-blue-500 outline-none w-24 truncate" /></div><button onClick={() => removeIO(io.id, io.address)} className="text-red-400 hover:text-red-700 font-bold px-2">&times;</button></div>))}</div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-700 mb-3 border-b pb-2">{t('memory')} / {t('system')}</h3>
+                  <div className="space-y-2">
+                    {memoryList.map(io => (<div key={io.id} className="flex justify-between items-center bg-white border border-slate-200 p-2 rounded shadow-sm"><div><span className="font-mono text-xs bg-purple-50 text-purple-600 px-2 py-1 rounded mr-2">{io.address}</span><input type="text" value={io.tag} onChange={(e) => renameIO(io.id, e.target.value)} className="font-medium text-sm bg-transparent border-b border-transparent hover:border-slate-300 focus:border-blue-500 outline-none w-24 truncate" /></div><button onClick={() => removeIO(io.id, io.address)} className="text-red-400 hover:text-red-700 font-bold px-2">&times;</button></div>))}
+                    {systemList.map(io => (<div key={io.id} className="flex justify-between items-center bg-slate-50 border border-slate-200 p-2 rounded shadow-sm"><div><span className="font-mono text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded mr-2">{io.address}</span><span className="font-medium text-sm text-slate-500 truncate">{io.tag}</span></div></div>))}
                   </div>
-                ))}</div>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-slate-700 mb-3 border-b pb-2">{t('outputs')}</h3>
-                <div className="space-y-2">{outputsList.map(io => (<div key={io.id} className="flex justify-between items-center bg-white border border-slate-200 p-2 rounded shadow-sm"><div><span className="font-mono text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded mr-2">{io.address}</span><input type="text" value={io.tag} onChange={(e) => renameIO(io.id, e.target.value)} className="font-medium text-sm bg-transparent border-b border-transparent hover:border-slate-300 focus:border-blue-500 outline-none w-24 truncate" /></div><button onClick={() => removeIO(io.id, io.address)} className="text-red-400 hover:text-red-700 font-bold px-2">&times;</button></div>))}</div>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-slate-700 mb-3 border-b pb-2">{t('memory')} / {t('system')}</h3>
-                <div className="space-y-2">
-                  {memoryList.map(io => (<div key={io.id} className="flex justify-between items-center bg-white border border-slate-200 p-2 rounded shadow-sm"><div><span className="font-mono text-xs bg-purple-50 text-purple-600 px-2 py-1 rounded mr-2">{io.address}</span><input type="text" value={io.tag} onChange={(e) => renameIO(io.id, e.target.value)} className="font-medium text-sm bg-transparent border-b border-transparent hover:border-slate-300 focus:border-blue-500 outline-none w-24 truncate" /></div><button onClick={() => removeIO(io.id, io.address)} className="text-red-400 hover:text-red-700 font-bold px-2">&times;</button></div>))}
-                  {systemList.map(io => (<div key={io.id} className="flex justify-between items-center bg-slate-50 border border-slate-200 p-2 rounded shadow-sm"><div><span className="font-mono text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded mr-2">{io.address}</span><span className="font-medium text-sm text-slate-500 truncate">{io.tag}</span></div></div>))}
                 </div>
               </div>
             </div>
@@ -853,7 +917,7 @@ const PLCSimulator = () => {
 
         {/* --- TAB 2 & 3 SHARED CONTENT AREA --- */}
         {(activeTab === 'simulator' || activeTab === 'process') && (
-          <div className="flex flex-col gap-6 h-full max-w-[90rem] mx-auto p-8">
+          <div className="flex-1 flex flex-col gap-6 w-full max-w-[90rem] mx-auto p-8">
             
             {/* Top: Compact Physical Simulator Panel */}
             <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 shrink-0">
@@ -929,7 +993,7 @@ const PLCSimulator = () => {
 
             {/* --- TAB 2 CONTENT: LADDER EDITOR --- */}
             {activeTab === 'simulator' && (
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 overflow-x-auto min-h-[500px]">
+              <div className="flex-1 bg-white p-6 rounded-xl shadow-sm border border-slate-200 overflow-x-auto min-h-[500px]">
                 <div className="flex justify-between items-end mb-6 border-b pb-4">
                   <div>
                     <h2 className="text-xl font-bold text-slate-800">{t('ladderProg')}</h2>
@@ -1118,7 +1182,7 @@ const PLCSimulator = () => {
 
             {/* --- TAB 3 CONTENT: 2D PROCESS PLANT --- */}
             {activeTab === 'process' && (
-              <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col min-h-[500px]">
+              <div className="flex-1 bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col min-h-[500px]">
                 <div className="mb-6 border-b pb-4 flex justify-between items-end">
                   <div>
                     <h2 className="text-xl font-bold text-slate-800">{t('processSim')}</h2>
@@ -1432,6 +1496,11 @@ const PLCSimulator = () => {
             )}
           </div>
         )}
+        
+        {/* FOOTER */}
+        <footer className="w-full text-center py-6 text-xs font-medium text-slate-400 mt-auto shrink-0 border-t border-slate-200 bg-white/50">
+           &copy; Ridzuan Radin | FTKEE UMPSA
+        </footer>
       </main>
     </div>
   );
